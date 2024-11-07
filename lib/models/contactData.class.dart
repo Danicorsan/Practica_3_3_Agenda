@@ -12,7 +12,6 @@ class Contactdata extends ChangeNotifier {
   bool isFavorite;
   List<String> labels;
 
-  //Simepre que podamos ponemos this. (nos ahorramos poner el tipo)
   Contactdata({
     required this.id,
     this.name,
@@ -37,9 +36,7 @@ class Contactdata extends ChangeNotifier {
       creation: DateTime.tryParse(data["creation"]),
       modification: DateTime.tryParse(data["modification"]),
       isFavorite: data["isFavorite"] ?? false,
-      labels: data["labels"] != null
-          ? List.from(data["labels"])
-          : [], //Ternaria mejor hacer copia que enlazar valores porque es por referencia
+      labels: data["labels"] != null ? List.from(data["labels"]) : [],
     );
   }
 
@@ -115,6 +112,4 @@ class Contactdata extends ChangeNotifier {
     isFavorite = source.isFavorite;
     labels = List.from(source.labels);
   }
-
-  
 }

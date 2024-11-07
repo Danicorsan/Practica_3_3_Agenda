@@ -16,17 +16,11 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<AgendaData>(context, listen: false).ordenar();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    AgendaData agenda = Provider.of<AgendaData>(context);
+    AgendaData agenda =
+        Provider.of<AgendaData>(context); 
 
     return DefaultTabController(
       length: 2,
@@ -59,7 +53,8 @@ class _ContactsPageState extends State<ContactsPage> {
         bottomNavigationBar: Container(
           color: const Color.fromRGBO(28, 27, 32, 1),
           child: TabBar(
-            labelColor: Colors.white,
+            labelColor:
+                Colors.white, 
             unselectedLabelColor: Colors.white70,
             indicatorColor: Colors.white,
             tabs: [

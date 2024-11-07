@@ -1,12 +1,11 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:practica32cordan/data/datos_agenta.dart';
 import 'package:practica32cordan/models/contactData.class.dart';
 
 class AgendaData extends ChangeNotifier {
   List<Contactdata> contacts;
 
-  bool ascendente = true;
+  bool ascendente = false;
 
   AgendaData({
     List<Contactdata>? contacts,
@@ -19,11 +18,7 @@ class AgendaData extends ChangeNotifier {
 
   AgendaData copyWith({List<Contactdata>? contacts}) {
     return AgendaData(
-        contacts: contacts ??
-            this
-                .contacts
-                .map((c) => c.copyWith())
-                .toList()); // se tiene que hacer copia porque es de referencia
+        contacts: contacts ?? this.contacts.map((c) => c.copyWith()).toList());
   }
 
   Map<String, dynamic> toJson() {
@@ -61,7 +56,7 @@ class AgendaData extends ChangeNotifier {
       String nameB = removeDiacritics(b.name!.toLowerCase());
       return ascendente ? nameA.compareTo(nameB) : nameB.compareTo(nameA);
     });
-    ascendente = !ascendente; // Alterna entre ascendente y descendente
+    ascendente = !ascendente;
     notifyListeners();
   }
 }
