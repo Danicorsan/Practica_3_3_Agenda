@@ -9,22 +9,19 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-         
-        return ChangeNotifierProvider.value(
+    return Builder(builder: (context) {
+      return ChangeNotifierProvider.value(
           value: agenda,
-          builder: (context,_) {
+          builder: (context, _) {
             return const MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: "Agenda",
               home: ContactsPage(),
             );
-          }
-        );
-      }
-    );
+          });
+    });
   }
 }

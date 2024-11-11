@@ -41,9 +41,13 @@ class AgendaData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteContact(Contactdata contact) {
+    contacts.remove(contact);
+    notifyListeners();
+  }
+
   void updateContact(Contactdata contact) {
     int index = contacts.indexWhere((c) => c.id == contact.id);
-
     if (index != -1) {
       contacts[index] = contact;
       notifyListeners();

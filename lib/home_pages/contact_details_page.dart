@@ -296,5 +296,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
           return Icons.question_mark;
       }
     }
+    
   }
 }

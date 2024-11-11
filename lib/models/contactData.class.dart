@@ -112,4 +112,8 @@ class Contactdata extends ChangeNotifier {
     isFavorite = source.isFavorite;
     labels = List.from(source.labels);
   }
+
+  void notificar() {
+    notifyListeners();
+  }
 }
