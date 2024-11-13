@@ -20,11 +20,19 @@ class ContactsPage extends StatelessWidget {
           title: Text("Agenda", style: TextStyle(color: Colors.white)),
           backgroundColor: const Color.fromRGBO(28, 27, 32, 1),
           actions: [
-            IconButton(
-              onPressed: () {
-                Provider.of<AgendaData>(context, listen: false).ordenar();
+            Consumer<AgendaData>(
+              builder: (context, agendaData, child) {
+                IconData icono = agendaData.ascendente
+                    ? FontAwesomeIcons.arrowDownZA
+                    : FontAwesomeIcons.arrowDownAZ;
+
+                return IconButton(
+                  onPressed: () {
+                    agendaData.ordenar();
+                  },
+                  icon: Icon(icono, color: Colors.white),
+                );
               },
-              icon: Icon(iconoOrdenar(context), color: Colors.white),
             ),
             IconButton(
               onPressed: () {},
@@ -33,18 +41,20 @@ class ContactsPage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: Container(
-          color: const Color.fromRGBO(28, 27, 32, 1),
+          color: const Color.fromARGB(255, 55, 53, 63),
           child: TabBar(
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
             indicatorColor: Colors.white,
             tabs: [
               Tab(
-                  icon: Icon(Icons.contact_page, color: Colors.white),
-                  text: "Contactos"),
+                icon: Icon(Icons.contact_page, color: Colors.white),
+                text: "Contactos",
+              ),
               Tab(
-                  icon: Icon(Icons.star, color: Colors.white),
-                  text: "Favoritos"),
+                icon: Icon(Icons.star, color: Colors.white),
+                text: "Favoritos",
+              ),
             ],
           ),
         ),
@@ -79,26 +89,23 @@ class ContactsPage extends StatelessWidget {
                             ),
                           ),
                         )
-                      : _buildContactList(agenda.contacts
-                          .where((contacto) => contacto.isFavorite)
-                          .toList()),
+                      : _buildContactList(
+                          agenda.contacts
+                              .where((contacto) => contacto.isFavorite)
+                              .toList(),
+                        ),
                 ],
               );
             },
           ),
         ),
-        floatingActionButton: Container(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 18.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                onCreateContact(context);
-              },
-              child: Icon(Icons.add),
-            ),
-          ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            onCreateContact(context);
+          },
+          child: Icon(Icons.add),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
@@ -144,6 +151,7 @@ class ContactsPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 14),
           ),
           trailing: PopupMenuButton<int>(
+            iconColor: Colors.white,
             color: const Color.fromARGB(255, 60, 58, 68),
             onSelected: (int result) {
               if (result == 1) {
@@ -151,7 +159,7 @@ class ContactsPage extends StatelessWidget {
               } else if (result == 2) {
                 onEditContact(context, contact);
               } else if (result == 3) {
-                _eliminarContacto(context, contact);
+                _showConfirmationDialog(context, contact);
               }
             },
             itemBuilder: (context) => [
@@ -205,13 +213,37 @@ class ContactsPage extends StatelessWidget {
     return [email, telefono].where((e) => e != null).join(', ');
   }
 
-  IconData iconoOrdenar(BuildContext context) {
-    return Provider.of<AgendaData>(context, listen: false).ascendente
-        ? FontAwesomeIcons.arrowDownZA
-        : FontAwesomeIcons.arrowDownAZ;
-  }
-
-  void _eliminarContacto(BuildContext context, Contactdata contact) {
-    Provider.of<AgendaData>(context, listen: false).deleteContact(contact);
+  Future<bool?> _showConfirmationDialog(
+      BuildContext context, Contactdata contact) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color.fromRGBO(28, 27, 32, 1),
+        title: Text(
+          "Confirmar borrado",
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Text(
+          "Vas a borrar el contacto. ¿Estás seguro de que quieres borrarlo?",
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text("Cancelar", style: TextStyle(color: Colors.white)),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+              Provider.of<AgendaData>(context, listen: false)
+                  .deleteContact(contact);
+            },
+            child: Text("Aceptar", style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
   }
 }

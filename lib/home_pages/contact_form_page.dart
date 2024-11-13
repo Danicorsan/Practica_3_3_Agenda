@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
@@ -26,7 +28,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
 
   bool isSaveEnabled = false;
 
-  var icono = Icon(Icons.save, color: Colors.white30);
+  var icono = Icon(Icons.check, color: Colors.white30);
 
   @override
   void initState() {
@@ -70,7 +72,7 @@ class _ContactFormPageState extends State<ContactFormPage> {
         isSaveEnabled = false;
       } else {
         isSaveEnabled = true;
-        icono = Icon(Icons.save, color: Colors.white);
+        icono = Icon(Icons.check, color: Colors.white);
       }
     });
   }
@@ -136,18 +138,10 @@ class _ContactFormPageState extends State<ContactFormPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: _buildTextFormField(
-                      controller: _phoneController,
-                      label: "Teléfono",
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "El teléfono es obligatorio";
-                        }
-                        if (!RegExp(r'^\d+$').hasMatch(value)) {
-                          return "El teléfono debe contener solo números";
-                        }
-                        return null;
-                      }),
+                    controller: _phoneController,
+                    label: "Teléfono",
+                    keyboardType: TextInputType.phone,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -156,12 +150,13 @@ class _ContactFormPageState extends State<ContactFormPage> {
                       label: "Email",
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        if (value == null || value.isEmpty)
-                          return "El email es obligatorio";
-                        final emailRegExp = RegExp(
-                            r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                        if (!emailRegExp.hasMatch(value))
-                          return "Ingrese un email válido";
+                        final RegExp emailRegExp = RegExp(
+                            r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+
+                        if (value == null || !emailRegExp.hasMatch(value)) {
+                          return 'Por favor ingresa un correo electrónico válido';
+                        }
+
                         return null;
                       }),
                 ),
@@ -223,6 +218,20 @@ class _ContactFormPageState extends State<ContactFormPage> {
       helpText: "Selecciona la fecha de nacimiento",
       cancelText: "Cancelar",
       confirmText: "Aceptar",
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.dark(
+              primary: Colors.white,
+              onPrimary: Colors.black,
+              surface: Color.fromRGBO(28, 27, 32, 1),
+              onSurface: Colors.white,
+            ),
+            dialogBackgroundColor: Color.fromRGBO(28, 27, 32, 1),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate != null) {
@@ -251,22 +260,28 @@ class _ContactFormPageState extends State<ContactFormPage> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Confirmar salida"),
+        backgroundColor: const Color.fromRGBO(28, 27, 32, 1),
+        title: Text(
+          "Confirmar salida",
+          style: TextStyle(color: Colors.white),
+        ),
         content: Text(
-            "Tienes cambios sin guardar. ¿Estás seguro de que deseas salir?"),
+          "Tienes cambios sin guardar. ¿Estás seguro de que deseas salir?",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text("Cancelar"),
+            child: Text("Cancelar", style: TextStyle(color: Colors.white)),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
               Navigator.of(context).pop(false);
             },
-            child: Text("Salir"),
+            child: Text("Salir", style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

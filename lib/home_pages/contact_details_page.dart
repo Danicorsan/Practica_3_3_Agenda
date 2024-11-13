@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:practica32cordan/funciones/functions.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
 import 'package:practica32cordan/models/contactData.class.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +49,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
           IconButton(
             icon: Icon(Icons.edit),
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              onEditContact(context, widget.contact);
+            },
           ),
         ],
       ),
@@ -228,6 +231,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _editarEtiquetas() {
+    AgendaData agenda = Provider.of<AgendaData>(context, listen: false);
     final TextEditingController labelsController = TextEditingController(
       text: widget.contact.labels
           .map((s) => s[0].toUpperCase() + s.substring(1).toLowerCase())
@@ -265,6 +269,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                           .map((s) =>
                               s[0].toUpperCase() + s.substring(1).toLowerCase())
                           .toList();
+                      agenda.updateContact(widget.contact);
                     });
                     Navigator.pop(context);
                     print("Etiquetas actualizadas: ${widget.contact.labels}");
@@ -296,6 +301,5 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
           return Icons.question_mark;
       }
     }
-    
   }
 }
