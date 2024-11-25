@@ -287,7 +287,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
         );
       },
     );
-    save();
   }
 
   IconData _cambiarIcono(Contactdata contact) {
