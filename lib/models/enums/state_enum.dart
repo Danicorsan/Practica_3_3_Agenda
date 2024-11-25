@@ -1,3 +1,1 @@
-enum StateEnum {
-  initial, loading, ready, error
-}
+enum StateEnum { initial, loading, ready, error }

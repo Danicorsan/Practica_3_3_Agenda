@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:practica32cordan/home_pages/contacts_page.dart';
 import 'package:practica32cordan/models/enums/state_enum.dart';
