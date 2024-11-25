@@ -273,6 +273,8 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                               s[0].toUpperCase() + s.substring(1).toLowerCase())
                           .toList();
                       agenda.updateContact(widget.contact);
+                      // Persistir cambios
+                      agenda.save();
                     });
                     Navigator.pop(context);
                     print("Etiquetas actualizadas: ${widget.contact.labels}");
@@ -285,6 +287,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
         );
       },
     );
+    save();
   }
 
   IconData _cambiarIcono(Contactdata contact) {
