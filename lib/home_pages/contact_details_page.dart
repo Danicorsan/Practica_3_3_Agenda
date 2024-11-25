@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:practica32cordan/funciones/functions.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
 import 'package:practica32cordan/models/contactData.class.dart';
+import 'package:practica32cordan/models/events_hub.dart';
 import 'package:provider/provider.dart';
 
 class ContactDetailsPage extends StatefulWidget {
@@ -19,7 +19,6 @@ class ContactDetailsPage extends StatefulWidget {
 class _ContactDetailsPageState extends State<ContactDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    AgendaData agenda = Provider.of<AgendaData>(context, listen: false);
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(28, 27, 32, 1),
@@ -40,9 +39,11 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
             color: Colors.white,
             onPressed: () {
               setState(() {
-                widget.contact.isFavorite = !widget.contact.isFavorite;
+                widget.contact.cambiarFavorito();
               });
-              agenda.updateContact(widget.contact);
+
+              Provider.of<AgendaData>(context, listen: false)
+                  .updateContact(widget.contact);
               print(widget.contact.isFavorite);
             },
           ),
@@ -50,7 +51,10 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
             icon: Icon(Icons.edit),
             color: Colors.white,
             onPressed: () {
-              onEditContact(context, widget.contact);
+              setState(() {
+                Provider.of<EventsHub>(context, listen: false)
+                    .onEditContact(context, widget.contact);
+              });
             },
           ),
         ],

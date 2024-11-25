@@ -28,15 +28,23 @@ class Contactdata extends ChangeNotifier {
   factory Contactdata.fromJson(Map<String, dynamic> data) {
     return Contactdata(
       id: data["id"] ?? 0,
-      name: data["name"],
-      surname: data["surname"],
-      email: data["email"],
-      phone: data["phone"],
-      birthdate: DateTime.tryParse(data["birthdate"]),
-      creation: DateTime.tryParse(data["creation"]),
-      modification: DateTime.tryParse(data["modification"]),
-      isFavorite: data["isFavorite"] ?? false,
-      labels: data["labels"] != null ? List.from(data["labels"]) : [],
+      name: data["name"] ?? "", // Asegúrate de que 'Name' no sea null
+      surname: data["surname"] ?? "", // Asegúrate de que 'Surname' no sea null
+      email: data["email"] ?? "", // Asegúrate de que 'Email' no sea null
+      phone: data["phone"] ?? "", // Asegúrate de que 'Phone' no sea null
+      birthdate: data["birthdate"] != null
+          ? DateTime.tryParse(data["birthdate"])
+          : null,
+      creation:
+          data["creation"] != null ? DateTime.tryParse(data["creation"]) : null,
+      modification: data["modification"] != null
+          ? DateTime.tryParse(data["modification"])
+          : DateTime.now(), // Si no hay 'Modification', usar la fecha actual
+      isFavorite: data["isFavorite"] ?? false, // Valor por defecto false
+      labels: data["labels"] != null && data["labels"] is List
+          ? List<String>.from(
+              data["labels"]) // Asegurarse de que 'Labels' sea una lista
+          : [], // Si no es una lista, asignar una lista vacía
     );
   }
 
@@ -63,12 +71,12 @@ class Contactdata extends ChangeNotifier {
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      if (name != null) "Name": name,
-      if (surname != null) "Surname": surname,
-      if (email != null) "Email": email,
-      if (phone != null) "Phone": phone,
-      if (birthdate != null) "Birthdate": birthdate!.toIso8601String(),
-      if (creation != null) "Creation": creation!.toIso8601String(),
+      if (name != null) "name": name,
+      if (surname != null) "surname": surname,
+      if (email != null) "email": email,
+      if (phone != null) "phone": phone,
+      if (birthdate != null) "birthdate": birthdate!.toIso8601String(),
+      if (creation != null) "creation": creation!.toIso8601String(),
       if (modification != null) "modification": modification!.toIso8601String(),
       if (isFavorite) "isFavorite": true,
       if (labels.isNotEmpty) "labels": List.from(labels),
@@ -111,6 +119,11 @@ class Contactdata extends ChangeNotifier {
     modification = source.modification;
     isFavorite = source.isFavorite;
     labels = List.from(source.labels);
+  }
+
+  void cambiarFavorito() {
+    isFavorite = !isFavorite;
+    notifyListeners();
   }
 
   void notificar() {

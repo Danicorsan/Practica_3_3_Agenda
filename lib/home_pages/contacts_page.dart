@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:practica32cordan/funciones/functions.dart';
 import 'package:practica32cordan/home_pages/contact_details_page.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
 import 'package:practica32cordan/models/contactData.class.dart';
+import 'package:practica32cordan/models/enums/state_enum.dart';
+import 'package:practica32cordan/models/events_hub.dart';
 import 'package:provider/provider.dart';
 
 class ContactsPage extends StatelessWidget {
@@ -62,6 +63,11 @@ class ContactsPage extends StatelessWidget {
           color: const Color.fromRGBO(28, 27, 32, 1),
           child: Consumer<AgendaData>(
             builder: (context, agenda, child) {
+              // Verifica si los contactos están vacíos y si el estado está listo
+              if (agenda.status == StateEnum.loading) {
+                return Center(child: CircularProgressIndicator());
+              }
+
               return TabBarView(
                 children: [
                   agenda.contacts.isEmpty
@@ -101,7 +107,8 @@ class ContactsPage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            onCreateContact(context);
+            Provider.of<EventsHub>(context, listen: false)
+                .onCreateContact(context);
           },
           child: Icon(Icons.add),
         ),
@@ -151,15 +158,18 @@ class ContactsPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 14),
           ),
           trailing: PopupMenuButton<int>(
+            // Opciones de contacto
             iconColor: Colors.white,
             color: const Color.fromARGB(255, 60, 58, 68),
             onSelected: (int result) {
               if (result == 1) {
                 _navigateToContactDetails(context, contact);
               } else if (result == 2) {
-                onEditContact(context, contact);
+                Provider.of<EventsHub>(context, listen: false)
+                    .onEditContact(context, contact);
               } else if (result == 3) {
-                _showConfirmationDialog(context, contact);
+                Provider.of<EventsHub>(context, listen: false)
+                    .onDeleteContact(context, contact);
               }
             },
             itemBuilder: (context) => [
@@ -211,39 +221,5 @@ class ContactsPage extends StatelessWidget {
 
   String generarSubtitulo({String? email, String? telefono}) {
     return [email, telefono].where((e) => e != null).join(', ');
-  }
-
-  Future<bool?> _showConfirmationDialog(
-      BuildContext context, Contactdata contact) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color.fromRGBO(28, 27, 32, 1),
-        title: Text(
-          "Confirmar borrado",
-          style: TextStyle(color: Colors.white),
-        ),
-        content: Text(
-          "Vas a borrar el contacto. ¿Estás seguro de que quieres borrarlo?",
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: Text("Cancelar", style: TextStyle(color: Colors.white)),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-              Provider.of<AgendaData>(context, listen: false)
-                  .deleteContact(contact);
-            },
-            child: Text("Aceptar", style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
   }
 }

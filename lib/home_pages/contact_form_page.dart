@@ -247,11 +247,16 @@ class _ContactFormPageState extends State<ContactFormPage> {
   void _saveContact(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       final agenda = Provider.of<AgendaData>(context, listen: false);
+
       if (widget.contact.id == 0) {
+        // Asigna un ID único al contacto nuevo
+        widget.contact.id = agenda.contacts.length + 1;
         agenda.addContact(widget.contact);
       } else {
+        // Actualiza el contacto existente
         agenda.updateContact(widget.contact);
       }
+
       Navigator.pop(context, true);
     }
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:practica32cordan/home_pages/contacts_page.dart';
+import 'package:practica32cordan/home_pages/boot_page.dart';
+import 'package:practica32cordan/models/events_hub.dart';
+import 'package:practica32cordan/models/agendaData.class.dart';
 import 'package:provider/provider.dart';
-import 'data/datos_agenta.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,16 +13,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return ChangeNotifierProvider.value(
-          value: agenda,
-          builder: (context, _) {
-            return const MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: "Agenda",
-              home: ContactsPage(),
-            );
-          });
-    });
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AgendaData(), // Proveedor de AgendaData
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EventsHub(), // Proveedor de EventsHub
+        ),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: BootPage(),
+      ),
+    );
   }
 }
