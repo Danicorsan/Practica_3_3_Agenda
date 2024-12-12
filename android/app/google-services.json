@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "418351958884",
+    "project_id": "agendaflutter-d8bc2",
+    "storage_bucket": "agendaflutter-d8bc2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418351958884:android:586b4e6dfb2b2460b18871",
+        "android_client_info": {
+          "package_name": "com.example.practica32cordan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7QZBqV_Dlf-V-XvncEYNDE7fXNQEokDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:practica32cordan/home_pages/contact_details_page.dart';
+import 'package:practica32cordan/pages/contact_details_page.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
 import 'package:practica32cordan/models/contactData.class.dart';
 import 'package:practica32cordan/models/enums/state_enum.dart';
@@ -158,7 +158,6 @@ class ContactsPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 14),
           ),
           trailing: PopupMenuButton<int>(
-            // Opciones de contacto
             iconColor: Colors.white,
             color: const Color.fromARGB(255, 60, 58, 68),
             onSelected: (int result) {

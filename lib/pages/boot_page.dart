@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:practica32cordan/home_pages/contacts_page.dart';
+import 'package:practica32cordan/pages/contacts_page.dart';
 import 'package:practica32cordan/models/enums/state_enum.dart';
 import 'package:provider/provider.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
@@ -22,6 +22,7 @@ class _BootPageState extends State<BootPage> {
 
   // Método para cargar los datos de la agenda
   Future<void> _loadAgendaData() async {
+    await Future.delayed(Duration(seconds: 1));
     final agendaData = Provider.of<AgendaData>(context, listen: false);
 
     // Cargar los datos de la agenda
@@ -35,8 +36,6 @@ class _BootPageState extends State<BootPage> {
         MaterialPageRoute(builder: (context) => const ContactsPage()),
       );
     } else {
-      // Si ocurrió un error en la carga, navegar a una pantalla de error (opcional)
-      // Para ahora, simplemente navegar a ContactsPage si no hay error
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const ContactsPage()),
@@ -47,7 +46,7 @@ class _BootPageState extends State<BootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color.fromRGBO(28, 27, 32, 1),
       body: Center(
         child: CircularProgressIndicator(
           color: Colors.white,

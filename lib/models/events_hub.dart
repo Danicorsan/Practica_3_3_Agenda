@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:practica32cordan/home_pages/contact_form_page.dart';
+import 'package:practica32cordan/pages/contact_form_page.dart';
 import 'package:practica32cordan/models/agendaData.class.dart';
 import 'package:practica32cordan/models/contactData.class.dart';
 import 'package:provider/provider.dart';
@@ -35,9 +35,10 @@ class EventsHub extends ChangeNotifier {
       ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error al guardar el contacto'),
+        content: Text('Contacto no guardado'),
       ));
     }
+    contact.notificar();
   }
 
   void onSort(BuildContext context) {

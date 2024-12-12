@@ -28,10 +28,10 @@ class Contactdata extends ChangeNotifier {
   factory Contactdata.fromJson(Map<String, dynamic> data) {
     return Contactdata(
       id: data["id"] ?? 0,
-      name: data["name"] ?? "", // Asegúrate de que 'Name' no sea null
-      surname: data["surname"] ?? "", // Asegúrate de que 'Surname' no sea null
-      email: data["email"] ?? "", // Asegúrate de que 'Email' no sea null
-      phone: data["phone"] ?? "", // Asegúrate de que 'Phone' no sea null
+      name: data["name"] ?? "",
+      surname: data["surname"] ?? "",
+      email: data["email"] ?? "",
+      phone: data["phone"] ?? "",
       birthdate: data["birthdate"] != null
           ? DateTime.tryParse(data["birthdate"])
           : null,
@@ -40,10 +40,10 @@ class Contactdata extends ChangeNotifier {
       modification: data["modification"] != null
           ? DateTime.tryParse(data["modification"])
           : DateTime.now(), // Si no hay 'Modification', usar la fecha actual
-      isFavorite: data["isFavorite"] ?? false, // Valor por defecto false
+      isFavorite: data["isFavorite"] ?? false, 
       labels: data["labels"] != null && data["labels"] is List
           ? List<String>.from(
-              data["labels"]) // Asegurarse de que 'Labels' sea una lista
+              data["labels"])
           : [], // Si no es una lista, asignar una lista vacía
     );
   }
@@ -81,7 +81,7 @@ class Contactdata extends ChangeNotifier {
       if (isFavorite) "isFavorite": true,
       if (labels.isNotEmpty) "labels": List.from(labels),
     };
-  }
+  } 
 
   Contactdata copyWith({
     int? id,
