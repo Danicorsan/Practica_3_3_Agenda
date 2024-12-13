@@ -185,7 +185,7 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
         suffixIcon: esContrasenia == true
             ? IconButton(
                 icon: Icon(
-                  _isPasswordObscured ? Icons.visibility : Icons.visibility_off,
+                  _isPasswordObscured ? Icons.visibility_off : Icons.visibility,
                 ),
                 onPressed: () {
                   setState(() {
