@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: const MaterialApp(
+        title: "Agenda",
         debugShowCheckedModeBanner: false,
         home: LoginScreenPage(),
       ),
